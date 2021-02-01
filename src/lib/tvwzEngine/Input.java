@@ -65,7 +65,7 @@ public class Input {
     }
 
     public static Vector2 getMousePos () {
-        return mousePos;
+        return mousePos.clone();
     }
 
 

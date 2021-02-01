@@ -1,15 +1,13 @@
 package lib.tvwzEngine.graphics.simple;
 
 import lib.tvwzEngine.graphics.Renderable;
+import lib.tvwzEngine.graphics.Translatable;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
-import lib.tvwzEngine.math.Vector4;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Rectangle extends Renderable {
+public class Rectangle extends Renderable implements Translatable {
 
     public Vector2 position, dimensions;
     public Vector3[] colors = new Vector3[4];
@@ -20,7 +18,7 @@ public class Rectangle extends Renderable {
 
 
     @Override
-    public void render () {
+    public void render (float startDepth) {
         glBegin(GL_QUADS);
         {
             int currentColorIndex = 0;
@@ -42,5 +40,10 @@ public class Rectangle extends Renderable {
             glVertex3f(position.x + dimensions.x, position.y, depth);
         }
         glEnd();
+    }
+
+    @Override
+    public void translate (float dx, float dy) {
+        position = position.add(dx, dy);
     }
 }

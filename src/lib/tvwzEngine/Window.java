@@ -1,19 +1,16 @@
 package lib.tvwzEngine;
 
 import lib.tvwzEngine.graphics.Renderable;
+import lib.tvwzEngine.graphics.Updateable;
 import lib.tvwzEngine.math.Time;
-import org.lwjgl.glfw.GLFW;
+import lib.tvwzEngine.math.Vector2;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.glfw.GLFWWindowSizeCallback;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLXARBCreateContext;
 
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.*;
 
 public class Window {
 
@@ -22,6 +19,7 @@ public class Window {
     public String title;
 
     public ArrayList<Renderable> renderableList;
+    public ArrayList<Updateable> updateableList;
 
     static {
         glfwInit();
@@ -32,31 +30,31 @@ public class Window {
         this.title = title;
         this.height = height;
         renderableList = new ArrayList<>();
+        updateableList = new ArrayList<>();
+    }
+
+    public void setResizable (boolean resizable) {
+        if (id == 0) {
+            glfwWindowHint(GLFW_RESIZABLE, resizable ? 1 : 0);
+        }
+
     }
 
     public void create () {
         if (!glfwInit()) return;
         id = glfwCreateWindow(width, height, title, 0, 0);
         if (id == 0) return;
-
-        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        glfwSetWindowPos(id, vidMode.width() / 2, vidMode.height() / 2);
         glfwMakeContextCurrent(id);
-        glfwShowWindow(id);
-
         createCapabilities();
         glfwSwapInterval(1);
+        glEnable(GL_LINE_SMOOTH);
+        glEnable(GL_POINT_SMOOTH);
         glEnable(GL_DEPTH_TEST);
         glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, width, 0, height, -1000, 1000);
+        glOrtho(0, width, height, 0, 1000, -1000);
         glMatrixMode(GL_MODELVIEW);
-
-        glfwSetWindowSizeCallback(id, new GLFWWindowSizeCallback() {
-            @Override
-            public void invoke (long window, int width, int height) {
+        glfwSetWindowSizeCallback(id, (window, width, height) -> {
                 resizeCallback(width, height);
-            }
         });
 
 
@@ -66,6 +64,9 @@ public class Window {
     public void update () {
         Time.Step();
         glfwPollEvents();
+        for (Updateable updateable : updateableList) {
+            updateable.update();
+        }
     }
 
 
@@ -74,7 +75,7 @@ public class Window {
         glClearColor(1f, 0.9f, 0.5f, 1);
 
         for (Renderable renderable : renderableList) {
-            renderable.render();
+            renderable.render(0);
         }
 
         glfwSwapBuffers(id);
@@ -87,11 +88,27 @@ public class Window {
     private void resizeCallback (int width, int height) {
         this.width = width;
         this.height = height;
+        glViewport(0, 0, width, height);
     }
+
+    public void show () {
+        glfwShowWindow(id);
+    }
+
+    public void hide () {
+        glfwHideWindow(id);
+    }
+
+    public void setPosition (Vector2 pos) {
+        glfwSetWindowPos(id, (int) pos.x, (int) pos.y);
+    }
+
+    public void setPosition (int x, int y) {
+        glfwSetWindowPos(id, x, y);
+    }
+
 
     public void destroy () {
         glfwDestroyWindow(id);
     }
-
-
 }
