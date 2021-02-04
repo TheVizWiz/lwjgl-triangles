@@ -1,4 +1,4 @@
-package lib.tvwzEngine.graphics;
+package lib.tvwzEngine.graphics.interfaces;
 
 public interface Updateable {
 

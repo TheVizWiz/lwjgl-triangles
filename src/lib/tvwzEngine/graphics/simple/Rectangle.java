@@ -1,13 +1,14 @@
 package lib.tvwzEngine.graphics.simple;
 
 import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.Translatable;
+import lib.tvwzEngine.graphics.interfaces.Shape;
+import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Rectangle extends Renderable implements Translatable {
+public class Rectangle extends Shape {
 
     public Vector2 position, dimensions;
     public Vector3[] colors = new Vector3[4];
@@ -45,5 +46,15 @@ public class Rectangle extends Renderable implements Translatable {
     @Override
     public void translate (float dx, float dy) {
         position = position.add(dx, dy);
+    }
+
+    @Override
+    public void rotateAround (Vector2 pivot, float degrees) {
+
+    }
+
+    @Override
+    public void scale (Vector2 pivot, float scaleAmount) {
+
     }
 }

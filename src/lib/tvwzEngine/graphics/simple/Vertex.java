@@ -1,7 +1,7 @@
 package lib.tvwzEngine.graphics.simple;
 
 import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.Translatable;
+import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
 
@@ -24,6 +24,10 @@ public class Vertex extends Renderable implements Translatable {
 
     public Vertex (Vector2 pos) {
         this.position = pos;
+    }
+
+    public Vertex () {
+
     }
 
     @Override

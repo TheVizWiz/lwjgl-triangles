@@ -1,13 +1,13 @@
 package lib.tvwzEngine.graphics.simple;
 
 import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.Translatable;
-
-import java.util.Arrays;
+import lib.tvwzEngine.graphics.interfaces.Shape;
+import lib.tvwzEngine.graphics.interfaces.Translatable;
+import lib.tvwzEngine.math.Vector2;
 
 import static org.lwjgl.opengl.GL12.*;
 
-public class Line extends Renderable implements Translatable {
+public class Line extends Shape {
 
     public Vertex startPos, endPos;
     public float lineWidth = 1;
@@ -34,5 +34,25 @@ public class Line extends Renderable implements Translatable {
     public void translate (float dx, float dy) {
         startPos.translate(dx, dy);
         endPos.translate(dx, dy);
+    }
+
+    @Override
+    public void rotateAround (Vector2 pivot, float degrees) {
+        startPos.position = startPos.position.rotateAround(pivot, degrees);
+        endPos.position = endPos.position.rotateAround(pivot, degrees);
+    }
+
+    @Override
+    public void scale (Vector2 pivot, float scaleAmount) {
+        startPos.position = startPos.position.scale(pivot, scaleAmount);
+        endPos.position = endPos.position.scale(pivot, scaleAmount);
+    }
+
+    public static void drawLine (Vertex a, Vertex b, float width, float depth) {
+        glLineWidth(width);
+        glBegin(GL_LINES);
+        a.render(depth);
+        b.render(depth);
+        glEnd();
     }
 }

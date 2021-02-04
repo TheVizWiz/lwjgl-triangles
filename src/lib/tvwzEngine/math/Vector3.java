@@ -24,6 +24,14 @@ public class Vector3 {
         return new Vector3(x * scalar, y * scalar, z * scalar);
     }
 
+    public float sqrMagnitude () {
+        return x * x + y * y + z * z;
+    }
+
+    public float magnitude () {
+        return (float) Math.sqrt(sqrMagnitude());
+    }
+
     public float dot (Vector3 b) {
         return x * b.x + y * b.y + z * b.z;
     }
@@ -34,6 +42,10 @@ public class Vector3 {
 
     public Vector2 toVector2 () {
         return new Vector2(x, y);
+    }
+
+    public Vector3 normalize () {
+        return multiply(1 / magnitude());
     }
 
     public static Vector3 lerp (Vector3 a, Vector3 b, float x) {
@@ -111,4 +123,7 @@ public class Vector3 {
         return new Vector3(1, 0, 1);
     }
 
+    public static Vector3 rgb256 (float x, float y, float z) {
+        return new Vector3(x, y, z).multiply(1 / 256f);
+    }
 }

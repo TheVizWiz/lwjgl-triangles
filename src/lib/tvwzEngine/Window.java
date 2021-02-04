@@ -1,10 +1,10 @@
 package lib.tvwzEngine;
 
 import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.Updateable;
+import lib.tvwzEngine.graphics.interfaces.Updateable;
 import lib.tvwzEngine.math.Time;
 import lib.tvwzEngine.math.Vector2;
-import org.lwjgl.glfw.GLFWVidMode;
+import lib.tvwzEngine.math.Vector3;
 
 import java.util.ArrayList;
 
@@ -21,11 +21,14 @@ public class Window {
     public ArrayList<Renderable> renderableList;
     public ArrayList<Updateable> updateableList;
 
+    private Vector3 bgColor;
+
     static {
         glfwInit();
     }
 
     public Window (int width, int height, String title) {
+        bgColor = Vector3.black();
         this.width = width;
         this.title = title;
         this.height = height;
@@ -47,16 +50,16 @@ public class Window {
         glfwMakeContextCurrent(id);
         createCapabilities();
         glfwSwapInterval(1);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glEnable(GL_LINE_SMOOTH);
         glEnable(GL_POINT_SMOOTH);
         glEnable(GL_DEPTH_TEST);
         glMatrixMode(GL_PROJECTION);
-        glOrtho(0, width, height, 0, 1000, -1000);
+        glOrtho(0, width, 0, height, -1000, 1000);
         glMatrixMode(GL_MODELVIEW);
         glfwSetWindowSizeCallback(id, (window, width, height) -> {
-                resizeCallback(width, height);
+            resizeCallback(width, height);
         });
-
 
     }
 
@@ -71,8 +74,9 @@ public class Window {
 
 
     public void render () {
+        glfwSetWindowTitle(id, 1 / Time.deltaTime() + "");
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(1f, 0.9f, 0.5f, 1);
+        glClearColor(bgColor.x, bgColor.y, bgColor.z, 0);
 
         for (Renderable renderable : renderableList) {
             renderable.render(0);
@@ -105,6 +109,10 @@ public class Window {
 
     public void setPosition (int x, int y) {
         glfwSetWindowPos(id, x, y);
+    }
+
+    public void setBackgroundColor (Vector3 color) {
+        this.bgColor = color;
     }
 
 

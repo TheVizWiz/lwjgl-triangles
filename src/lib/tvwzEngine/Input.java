@@ -5,6 +5,9 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.opengl.GL11;
+
+import java.nio.IntBuffer;
 
 public class Input {
 
@@ -21,8 +24,10 @@ public class Input {
         cursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke (long windowID, double xpos, double ypos) {
+                int[] width = new int[2], height = new int[2];
+                GLFW.glfwGetWindowSize(windowID, width, height);
                 mousePos.x = (float) xpos;
-                mousePos.y = (float) ypos;
+                mousePos.y = (float) (height[0] - ypos);
             }
         };
 

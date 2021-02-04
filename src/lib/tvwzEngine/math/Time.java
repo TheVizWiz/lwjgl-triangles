@@ -1,30 +1,35 @@
 package lib.tvwzEngine.math;
 
+import org.lwjgl.glfw.GLFW;
+
+import static org.lwjgl.glfw.GLFW.*;
+
 public class Time {
 
 
-    private static float deltaTime;
-    private static long currentTime;
-    private static float totalTime;
-    private static long startTime;
+    private static double deltaTime;
+    private static double currentTime;
+    private static double totalTime;
+    private static final double startTime;
 
     static {
-        startTime = System.nanoTime();
-        currentTime = System.nanoTime();
+        startTime = glfwGetTime();
+        currentTime = glfwGetTime();
     }
 
     public static void Step () {
-        deltaTime = (System.nanoTime() - currentTime) / 1000000000f;
-        currentTime = System.nanoTime();
-        totalTime = (System.nanoTime() - startTime) / 1000000000f;
+        double current = glfwGetTime();
+        deltaTime = glfwGetTime() - currentTime;
+        currentTime = current;
+        totalTime = current - startTime;
     }
 
 
     public static float deltaTime () {
-        return deltaTime;
+        return (float) deltaTime;
     }
 
-    public static float getTotalTime () {
-        return totalTime;
+    public static float totalTime () {
+        return (float) totalTime;
     }
 }

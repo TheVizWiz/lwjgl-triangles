@@ -2,7 +2,8 @@ package main;
 
 import lib.tvwzEngine.Input;
 import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.Updateable;
+import lib.tvwzEngine.graphics.interfaces.Updateable;
+import lib.tvwzEngine.graphics.simple.Line;
 import lib.tvwzEngine.graphics.simple.Point;
 import lib.tvwzEngine.graphics.simple.Vertex;
 import lib.tvwzEngine.math.Time;
@@ -14,11 +15,12 @@ public class TestClass extends Renderable implements Updateable {
 
 
     public Point[][] points;
-    public float speed = 500f;
-    private Vector2 rotateAroundPoint;
+    public float speed = 100f;
+    private Vertex rotateAroundPoint;
 
 
     public TestClass (int width, int height, int numPoints) {
+        numPoints = 1;
         points = new Point[numPoints][numPoints];
         for (int i = 0; i < points.length; i++) {
             for (int j = 0; j < points[i].length; j++) {
@@ -35,14 +37,20 @@ public class TestClass extends Renderable implements Updateable {
                 points[i][j].size = 20;
             }
         }
-        rotateAroundPoint = new Vector2(width / 2f, height / 2f);
+        rotateAroundPoint = new Vertex();
+        rotateAroundPoint.position = new Vector2(width / 2f, height / 2f);
     }
 
     @Override
     public void render (float startDepth) {
         for (int i = 0; i < points.length; i++) {
             for (int j = 0; j < points[i].length; j++) {
-                points[i][j].render(startDepth);
+                points[i][j].render(startDepth + depth);
+                Vertex midVertex = new Vertex(
+                        new Vector2(points[i][j].pos.position.x, rotateAroundPoint.position.y), Vector3.cyan()
+                );
+                Line.drawLine(rotateAroundPoint, midVertex, 5,startDepth +  depth);
+                Line.drawLine(midVertex, points[i][j].pos, 5, startDepth + depth);
             }
         }
     }
@@ -51,16 +59,14 @@ public class TestClass extends Renderable implements Updateable {
     public void update () {
 
         if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_1)) {
-            rotateAroundPoint = Input.getMousePos();
+            rotateAroundPoint.position = Input.getMousePos();
         }
 
         for (Point[] pointArray : points) {
             for (Point point : pointArray) {
-//                Vector2 angle =
-//                        Vector2.fromDegrees((float) Math.random() * 360).multiply(speed * Time.deltaTime());
-//                point.pos.position = point.pos.position.add(angle);
+
                 if (Input.isKeyDown(GLFW.GLFW_KEY_SPACE) )
-                point.pos.position = point.pos.position.rotateAround(rotateAroundPoint, speed * Time.deltaTime());
+                    point.pos.position = point.pos.position.rotateAround(rotateAroundPoint.position, speed * Time.deltaTime());
 
             }
         }
