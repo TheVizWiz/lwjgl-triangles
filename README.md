@@ -1,16 +1,25 @@
-# lwjgl-triangles
-Floating Triangles Simulation using Java's lwjgl library
-
+# tvwz-lwjgl-engine
+Custom easy to use wrapper library and engine for LWJGL's OpenGL implementation, still generally light. Contains "Sample" implementations, small projects that use the engine. Current planning for projects:
+- Simple Game Of Life implementation with interaction abilities and start/pause menus.
+- Simple Falling Sand simulation, without complex physics engine.
+- 2D redoing of previously done arcade/simple games, such as Minesweeper, Snake, Galaxian, etc.
 
 ## TODO
-- Create more possible Renderable simple classes. Begin work on code for triangle simulation and movement.
-- Begin the preliminary setup for triangle work and possibly vector sims (Newtonian Heat Flow, Collision Detection, etc).
-- Begin work on texturing assets and adding sprite mapping.
+- (Possibly) Set up mapping with dependencies so other libraries are automatically added.
+- Finish setting up sample/initial projects.
+- Add UI library on top of current graphics libraries, as well as Texture/Sprite support.
+- Add Text and Font (through TTF) support, most likely as a part of the Texture or Shape classes.
+- Consider switch from inheritance to composition structure.
+
+## Update 0.0.2 - Graphics work 2, General Setup
+- Finished creation of more `simple` graphics classes, extension from Shape. 
+- Polished setup of project, removed unnecessary bloat.
+- Set up more classes and `samples` setup for the creation of the rest of the project.
 
 ## Update 0.0.1 - Graphics work 1
 - Created more simple classes, worked on Lines, Polygons, Triangles, Points, etc. All work based on new `Vertex` class, taking in `Vector2` position and `Vector3` color data to paint to screen.
 - Added update loop mechanics to window classes, as well as `Updateable` interface, can now be called on multiple classes.
-- Extended example [Main](https://github.com/TheVizWiz/lwjgl-triangles/blob/main/src/main/Main.java) class that can be run using `TestClass`, creates floating-point grid. Space to rotate, click on screen to set rotate zone.
+- Extended example [`Main`](https://github.com/TheVizWiz/lwjgl-triangles/blob/main/src/main/Main.java) class that can be run using `TestClass`, creates floating-point grid. Space to rotate, click on screen to set rotate zone.
 - Added multiple new methods, fleshed out `Vector2` and `Vector3` classes. Added new classes such as the `Line` class for future use. 
 - Update peek:<br>
 <img src = "https://github.com/TheVizWiz/lwjgl-triangles/blob/main/src/resources/rotating_points.png" width = "200" height = "200" alt = "rotating points 0.0.1">
