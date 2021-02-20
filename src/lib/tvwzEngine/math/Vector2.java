@@ -92,6 +92,14 @@ public class Vector2 {
         return (float) angle;
     }
 
+    public float distance (Vector2 v) {
+        return v.add(this.neg()).magnitude();
+    }
+
+    public float sqrDistance (Vector2 v) {
+        return v.add(this.neg()).sqrMagnitude();
+    }
+
     public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

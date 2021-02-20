@@ -1,13 +1,14 @@
 package lib.tvwzEngine.graphics.simple;
 
 import lib.tvwzEngine.graphics.Renderable;
+import lib.tvwzEngine.graphics.interfaces.Scalable;
 import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
 
 import static org.lwjgl.opengl.GL12.*;
 
-public class Vertex extends Renderable implements Translatable {
+public class Vertex extends Renderable implements Translatable, Scalable {
 
     public Vector2 position;
     public Vector3 color;
@@ -50,5 +51,10 @@ public class Vertex extends Renderable implements Translatable {
             vertex.render(startDepth);
         }
         glEnd();
+    }
+
+    @Override
+    public void scale (Vector2 pivot, float scaleAmount) {
+        position = position.scale(pivot, scaleAmount);
     }
 }

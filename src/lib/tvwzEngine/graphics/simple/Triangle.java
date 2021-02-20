@@ -1,9 +1,8 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Shape;
-import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
+import lib.tvwzEngine.math.Vector3;
 
 import static org.lwjgl.opengl.GL12.*;
 
@@ -47,12 +46,31 @@ public class Triangle extends Shape {
     }
 
     @Override
+    public void setColor (Vector3 color) {
+        for (Vertex vertex : vertices) {
+            vertex.color = color;
+        }
+    }
+
+    @Override
     public void render (float startDepth) {
         glBegin(GL_TRIANGLES);
         for (Vertex vertex : vertices) {
             vertex.render(startDepth + depth);
         }
         glEnd();
+    }
+
+    public void SetVertexPositions (Vector2[] positions) {
+        for (int i = 0;  i < vertices.length; i++) {
+            vertices[i].position = positions[i];
+        }
+    }
+
+    public void setVertexPositions (Vector2 pos1, Vector2 pos2, Vector2 pos3) {
+        vertices[0].position = pos1;
+        vertices[1].position = pos2;
+        vertices[2].position = pos3;
     }
 
     @Override
@@ -62,17 +80,19 @@ public class Triangle extends Shape {
         }
     }
 
-    public void SetVertexPositions (Vector2[] positions) {
-
-    }
-
     @Override
     public void rotateAround (Vector2 pivot, float degrees) {
-
+        for (Vertex vertex : vertices) {
+            vertex.position = vertex.position.rotateAround(pivot, degrees);
+        }
     }
 
     @Override
     public void scale (Vector2 pivot, float scaleAmount) {
-
+        for (Vertex vertex : vertices) {
+            vertex.scale(pivot, scaleAmount);
+        }
     }
+
+
 }

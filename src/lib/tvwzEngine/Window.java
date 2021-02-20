@@ -9,7 +9,7 @@ import lib.tvwzEngine.math.Vector3;
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL.*;
+import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL12.*;
 
 public class Window {
@@ -113,6 +113,20 @@ public class Window {
 
     public void setBackgroundColor (Vector3 color) {
         this.bgColor = color;
+    }
+
+    public void setAntiAlias (boolean point, boolean line) {
+        if (point) {
+            glEnable(GL_POINT_SMOOTH);
+        } else {
+            glDisable(GL_POINT_SMOOTH);
+        }
+
+        if (line) {
+            glEnable(GL_LINE_SMOOTH);
+        } else {
+            glDisable(GL_LINE_SMOOTH);
+        }
     }
 
 

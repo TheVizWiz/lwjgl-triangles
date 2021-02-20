@@ -3,7 +3,6 @@ package lib.tvwzEngine.graphics.simple;
 import lib.tvwzEngine.graphics.interfaces.Shape;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
-import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -74,7 +73,7 @@ public class Circle extends Shape {
     @Override
     public void scale (Vector2 pivot, float scaleAmount) {
         for (Vertex vertex : vertices) {
-            vertex.position = vertex.position.scale(pivot, scaleAmount);
+            vertex.scale(pivot, scaleAmount);
         }
     }
 
@@ -97,6 +96,14 @@ public class Circle extends Shape {
         center.translate(dx, dy);
         for (Vertex vertex : vertices) {
             vertex.translate(dx, dy);
+        }
+    }
+
+    @Override
+    public void setColor (Vector3 color) {
+        center.color = color;
+        for (Vertex vertex : vertices){
+            vertex.color = color;
         }
     }
 }

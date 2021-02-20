@@ -1,9 +1,8 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Shape;
-import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
+import lib.tvwzEngine.math.Vector3;
 
 import static org.lwjgl.opengl.GL12.*;
 
@@ -31,6 +30,12 @@ public class Line extends Shape {
     }
 
     @Override
+    public void setColor (Vector3 color) {
+        startPos.color = color;
+        endPos.color = color;
+    }
+
+    @Override
     public void translate (float dx, float dy) {
         startPos.translate(dx, dy);
         endPos.translate(dx, dy);
@@ -44,8 +49,8 @@ public class Line extends Shape {
 
     @Override
     public void scale (Vector2 pivot, float scaleAmount) {
-        startPos.position = startPos.position.scale(pivot, scaleAmount);
-        endPos.position = endPos.position.scale(pivot, scaleAmount);
+        startPos.scale(pivot, scaleAmount);
+        endPos.scale(pivot, scaleAmount);
     }
 
     public static void drawLine (Vertex a, Vertex b, float width, float depth) {

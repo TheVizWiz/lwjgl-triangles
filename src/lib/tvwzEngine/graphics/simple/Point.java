@@ -1,9 +1,8 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Shape;
-import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
+import lib.tvwzEngine.math.Vector3;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -29,6 +28,11 @@ public class Point extends Shape {
     }
 
     @Override
+    public void setColor (Vector3 color) {
+        pos.color = color;
+    }
+
+    @Override
     public void translate (float dx, float dy) {
         pos.translate(dx, dy);
     }
@@ -40,7 +44,7 @@ public class Point extends Shape {
 
     @Override
     public void scale (Vector2 pivot, float scaleAmount) {
-        pos.position = pos.position.scale(pivot, scaleAmount);
+        pos.scale(pivot, scaleAmount);
     }
 
     public static void renderPoint (Vertex vertex, float size, float depth) {

@@ -1,8 +1,6 @@
 package lib.tvwzEngine.math;
 
-import org.lwjgl.glfw.GLFW;
-
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public class Time {
 

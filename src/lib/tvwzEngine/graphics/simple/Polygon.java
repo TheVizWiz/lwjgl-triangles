@@ -1,9 +1,8 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Shape;
-import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
+import lib.tvwzEngine.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +24,13 @@ public class Polygon extends Shape {
     @Override
     public void render (float startDepth) {
         Vertex.renderVertexList(vertices.toArray(new Vertex[0]), depth + startDepth);
+    }
+
+    @Override
+    public void setColor (Vector3 color) {
+        for (Vertex vertex : vertices) {
+            vertex.color = color;
+        }
     }
 
     public void translate (float dx, float dy) {

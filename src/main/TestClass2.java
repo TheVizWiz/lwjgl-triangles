@@ -3,10 +3,7 @@ package main;
 import lib.tvwzEngine.Input;
 import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Updateable;
-import lib.tvwzEngine.graphics.simple.Circle;
-import lib.tvwzEngine.graphics.simple.Point;
-import lib.tvwzEngine.graphics.simple.Triangle;
-import lib.tvwzEngine.graphics.simple.Vertex;
+import lib.tvwzEngine.graphics.simple.*;
 import lib.tvwzEngine.math.Time;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
@@ -53,6 +50,13 @@ public class TestClass2 extends Renderable implements Updateable {
         glBegin(GL_POINTS);
         for (Vertex vertex : vertices) {
             vertex.render(startDepth + depth);
+        }
+        for (int i = 0; i < vertices.size() - 1; i++) {
+            for (int j = 1 + 1; j < vertices.size(); j++) {
+
+                if (vertices.get(i).position.sqrDistance(vertices.get(j).position) < Math.pow(100f, 2))
+                    Line.drawLine(vertices.get(i), vertices.get(j), 2, startDepth + depth);
+            }
         }
         glEnd();
     }
