@@ -1,14 +1,11 @@
 package main;
 
-import lib.tvwzEngine.Input;
 import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Updateable;
 import lib.tvwzEngine.graphics.simple.*;
 import lib.tvwzEngine.math.Time;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 

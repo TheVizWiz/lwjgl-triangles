@@ -1,6 +1,6 @@
 package main;
 
-import lib.tvwzEngine.Input;
+import lib.tvwzEngine.input.Input;
 import lib.tvwzEngine.graphics.Renderable;
 import lib.tvwzEngine.graphics.interfaces.Updateable;
 import lib.tvwzEngine.graphics.simple.Line;

@@ -1,12 +1,10 @@
 package main;
 
 
-import lib.tvwzEngine.Input;
+import lib.tvwzEngine.input.Input;
 import lib.tvwzEngine.Window;
-import lib.tvwzEngine.graphics.simple.*;
-import lib.tvwzEngine.math.Time;
-import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
+import main.samples.gameoflife.GOLInputManager;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -25,7 +23,7 @@ public class Main {
             window.setBackgroundColor(Vector3.rgb256(0, 255, 168));
             window.show();
         }
-
+        new GOLInputManager(window);
         TestClass2 class2 = new TestClass2(window.width, window.height, 10);
         class2.lowSpeed = 50;
         class2.highSpeed = 100;

@@ -1,15 +1,21 @@
-package lib.tvwzEngine;
+package lib.tvwzEngine.input;
 
+import lib.tvwzEngine.Window;
 import lib.tvwzEngine.math.Vector2;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
+import java.util.ArrayList;
+
 public class Input {
 
     public static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
     public static boolean[] buttons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
+    private static ArrayList<KeyListener> keyListeners;
+    private static ArrayList<MouseListener> mouseListeners;
+    private static ArrayList<MousePosListener> mousePosListeners;
     public static Vector2 mousePos;
     private static GLFWCursorPosCallback cursorPosCallback;
     private static GLFWMouseButtonCallback buttonCallback;
@@ -18,6 +24,11 @@ public class Input {
 
     static {
         mousePos = new Vector2();
+        keyListeners = new ArrayList<>();
+        mouseListeners = new ArrayList<>();
+        mousePosListeners = new ArrayList<>();
+
+
         cursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke (long windowID, double xpos, double ypos) {
@@ -25,6 +36,9 @@ public class Input {
                 GLFW.glfwGetWindowSize(windowID, width, height);
                 mousePos.x = (float) xpos;
                 mousePos.y = (float) (height[0] - ypos);
+                for (MousePosListener mousePosListener : mousePosListeners) {
+                    mousePosListener.onMouseMove(mousePos);
+                }
             }
         };
 
@@ -34,6 +48,15 @@ public class Input {
             @Override
             public void invoke (long windowID, int key, int scancode, int action, int mods) {
                 keys[key] = action != GLFW.GLFW_RELEASE;
+                for (KeyListener keyListener : keyListeners) {
+                    if (action == GLFW.GLFW_RELEASE) {
+                        keyListener.onKeyRelease(key);
+                    } else if (action == GLFW.GLFW_PRESS) {
+                        keyListener.onKeyPress(key);
+                    } else if (action == GLFW.GLFW_REPEAT) {
+                        keyListener.onKeyRepeat(key);
+                    }
+                }
             }
         };
 
@@ -82,4 +105,31 @@ public class Input {
     public static GLFWKeyCallback getKeyCallback () {
         return keyCallback;
     }
+
+    public static void addKeyListener (KeyListener listener) {
+        keyListeners.add(listener);
+    }
+
+    public static void addMouseListener (MouseListener mouseListener) {
+        mouseListeners.add(mouseListener);
+    }
+
+    public static void addMousePosListener (MousePosListener mousePosListener) {
+        mousePosListeners.add(mousePosListener);
+    }
+
+    public static void removeKeyListener (KeyListener listener) {
+        keyListeners.remove(listener);
+    }
+
+    public static void removeMouseListener (MouseListener mouseListener) {
+        mouseListeners.remove(mouseListener);
+    }
+
+    public static void removeMousePosListener (MousePosListener mousePosListener) {
+        mousePosListeners.remove(mousePosListener);
+    }
+
+
+
 }

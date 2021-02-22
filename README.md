@@ -11,6 +11,9 @@ Custom easy to use wrapper library and engine for LWJGL's OpenGL implementation,
 - Add Text and Font (through TTF) support, most likely as a part of the Texture or Shape classes.
 - Consider switch from inheritance to composition structure.
 
+## Current update
+Added new Input classes to the Input system to manage a callback style input, similar to java's own awt input framework. Inputs can now be detected on a need-base system instead of a frame-base system. Currently, callbacks are run synchronously, which is unnecessary - they can be called async, which will be implemented using `Thread` systems in the future. Input can be tested by running `Main` class and pressing keys. Current input has 3 systems: keys, mouse, and mouse positions. More support will be added as necessary in the future.
+
 ## Update 0.0.2 - Graphics work 2, General Setup
 - Finished creation of more `simple` graphics classes, extension from Shape. 
 - Polished setup of project, removed unnecessary bloat.
