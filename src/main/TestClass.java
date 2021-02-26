@@ -1,8 +1,8 @@
 package main;
 
 import lib.tvwzEngine.input.Input;
-import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.interfaces.Updateable;
+import lib.tvwzEngine.graphics.interfaces.RenderableBase;
+import lib.tvwzEngine.graphics.interfaces.Updatable;
 import lib.tvwzEngine.graphics.simple.Line;
 import lib.tvwzEngine.graphics.simple.Point;
 import lib.tvwzEngine.graphics.simple.Vertex;
@@ -11,7 +11,7 @@ import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
 import org.lwjgl.glfw.GLFW;
 
-public class TestClass extends Renderable implements Updateable {
+public class TestClass extends RenderableBase implements Updatable {
 
 
     public Point[][] points;

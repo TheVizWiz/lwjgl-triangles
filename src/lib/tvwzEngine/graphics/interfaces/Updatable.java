@@ -1,6 +1,6 @@
 package lib.tvwzEngine.graphics.interfaces;
 
-public interface Updateable {
+public interface Updatable {
 
     public void update();
 }

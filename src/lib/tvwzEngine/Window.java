@@ -1,12 +1,14 @@
 package lib.tvwzEngine;
 
-import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.interfaces.Updateable;
+import lib.tvwzEngine.graphics.interfaces.Renderable;
+import lib.tvwzEngine.graphics.interfaces.Updatable;
 import lib.tvwzEngine.math.Time;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
+import org.lwjgl.glfw.GLFWVidMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
@@ -16,24 +18,29 @@ public class Window {
 
     public long id;
     public int width, height;
+    public int framesPerUpdate;
+    public final int startWidth, startHeight;
     public String title;
 
     public ArrayList<Renderable> renderableList;
-    public ArrayList<Updateable> updateableList;
+    public ArrayList<Updatable> updatableList;
 
     private Vector3 bgColor;
 
-    static {
-        glfwInit();
-    }
+    private int currentFrameUpdate;
 
     public Window (int width, int height, String title) {
-        bgColor = Vector3.black();
+        bgColor = Vector3.white();
         this.width = width;
         this.title = title;
+        this.startHeight = height;
+        this.startWidth = width;
         this.height = height;
         renderableList = new ArrayList<>();
-        updateableList = new ArrayList<>();
+        updatableList = new ArrayList<>();
+        framesPerUpdate = 1;
+        currentFrameUpdate = 0;
+        System.out.println("initialized with id " + id);
     }
 
     public void setResizable (boolean resizable) {
@@ -63,18 +70,22 @@ public class Window {
 
     }
 
+    public void step () {
+        currentFrameUpdate = (currentFrameUpdate + 1) % framesPerUpdate;
+        if (currentFrameUpdate == 0) update();
+        render();
+    }
 
     public void update () {
         Time.Step();
         glfwPollEvents();
-        for (Updateable updateable : updateableList) {
-            updateable.update();
+        for (Updatable updatable : updatableList) {
+            updatable.update();
         }
     }
 
 
     public void render () {
-        glfwSetWindowTitle(id, 1 / Time.deltaTime() + "");
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(bgColor.x, bgColor.y, bgColor.z, 0);
 
@@ -95,12 +106,36 @@ public class Window {
         glViewport(0, 0, width, height);
     }
 
+    /**
+     * scales a point using the original dimensions, useful for finding positions of scaled objects in relation to
+     * start size of the window, such as for Cursor positions.
+     *
+     * @param point the point, normalized for each component to be between 0-1.
+     * @return the scaled version of the normalized point vector.
+     */
+    public Vector2 startScaleNormalizedPoint (Vector2 point) {
+        return new Vector2(point.x * startWidth, point.y * startHeight);
+    }
+
     public void show () {
         glfwShowWindow(id);
     }
 
     public void hide () {
         glfwHideWindow(id);
+    }
+
+    public void setBackgroundColor (Vector3 color) {
+        this.bgColor = color;
+    }
+
+    public void setTitle (String title) {
+        glfwSetWindowTitle(id, title);
+        this.title = title;
+    }
+
+    public String getTitle () {
+        return title;
     }
 
     public void setPosition (Vector2 pos) {
@@ -111,8 +146,9 @@ public class Window {
         glfwSetWindowPos(id, x, y);
     }
 
-    public void setBackgroundColor (Vector3 color) {
-        this.bgColor = color;
+    public void centerWithinMonitor () {
+        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        setPosition((vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
     }
 
     public void setAntiAlias (boolean point, boolean line) {
@@ -129,8 +165,9 @@ public class Window {
         }
     }
 
-
     public void destroy () {
         glfwDestroyWindow(id);
     }
+
+
 }

@@ -1,6 +1,5 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.interfaces.Shape;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
 
@@ -54,11 +53,19 @@ public class Triangle extends Shape {
 
     @Override
     public void render (float startDepth) {
-        glBegin(GL_TRIANGLES);
-        for (Vertex vertex : vertices) {
-            vertex.render(startDepth + depth);
+        if (renderFill) {
+            glBegin(GL_TRIANGLES);
+            Vertex.renderVertexList(vertices, startDepth + depth);
+            glEnd();
         }
-        glEnd();
+
+        if (renderOutline) {
+            glLineWidth(outlineWidth);
+            glBegin(GL_LINE_LOOP);
+            Vertex.renderVertexOutlineList(vertices, outlineColor, startDepth + depth);
+            glEnd();
+        }
+
     }
 
     public void SetVertexPositions (Vector2[] positions) {

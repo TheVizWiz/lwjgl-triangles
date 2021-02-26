@@ -1,7 +1,7 @@
-package lib.tvwzEngine.graphics;
+package lib.tvwzEngine.graphics.interfaces;
 
 
-public abstract class Renderable {
+public abstract class RenderableBase implements Renderable {
 
     protected float depth = 0;
 

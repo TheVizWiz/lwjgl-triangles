@@ -34,8 +34,8 @@ public class Input {
             public void invoke (long windowID, double xpos, double ypos) {
                 int[] width = new int[2], height = new int[2];
                 GLFW.glfwGetWindowSize(windowID, width, height);
-                mousePos.x = (float) xpos;
-                mousePos.y = (float) (height[0] - ypos);
+                mousePos.x = ((float) (xpos)) / width[0];
+                mousePos.y = ((float) (height[0] - ypos)) / height[0];
                 for (MousePosListener mousePosListener : mousePosListeners) {
                     mousePosListener.onMouseMove(mousePos);
                 }
@@ -64,6 +64,15 @@ public class Input {
             @Override
             public void invoke (long windowID, int button, int action, int mods) {
                 buttons[button] = action != GLFW.GLFW_RELEASE;
+                for (MouseListener mouseListener : mouseListeners) {
+                    if (action == GLFW.GLFW_RELEASE) {
+                        mouseListener.onButtonRelease(button);
+                    } else if (action == GLFW.GLFW_PRESS) {
+                        mouseListener.onButtonPress(button);
+                    } else if (action == GLFW.GLFW_REPEAT) {
+                        mouseListener.onButtonRepeat(button);
+                    }
+                }
             }
         };
     }
@@ -89,6 +98,10 @@ public class Input {
         return buttons[buttonCode];
     }
 
+    /**
+     *
+     * @return The mouse position, between 0 and 1 for width and height
+     */
     public static Vector2 getMousePos () {
         return mousePos.clone();
     }
@@ -129,7 +142,6 @@ public class Input {
     public static void removeMousePosListener (MousePosListener mousePosListener) {
         mousePosListeners.remove(mousePosListener);
     }
-
 
 
 }

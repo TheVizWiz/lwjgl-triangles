@@ -1,6 +1,6 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.Renderable;
+import lib.tvwzEngine.graphics.interfaces.RenderableBase;
 import lib.tvwzEngine.graphics.interfaces.Scalable;
 import lib.tvwzEngine.graphics.interfaces.Translatable;
 import lib.tvwzEngine.math.Vector2;
@@ -8,7 +8,7 @@ import lib.tvwzEngine.math.Vector3;
 
 import static org.lwjgl.opengl.GL12.*;
 
-public class Vertex extends Renderable implements Translatable, Scalable {
+public class Vertex extends RenderableBase implements Translatable, Scalable {
 
     public Vector2 position;
     public Vector3 color;
@@ -46,11 +46,16 @@ public class Vertex extends Renderable implements Translatable, Scalable {
 
 
     public static void renderVertexList (Vertex[] vertices, float startDepth) {
-        glBegin(GL_POLYGON);
         for (Vertex vertex : vertices) {
             vertex.render(startDepth);
         }
-        glEnd();
+    }
+
+    public static void renderVertexOutlineList (Vertex[] vertices, Vector3 color, float startDepth) {
+        glColor3f(color.x, color.y, color.z);
+        for (Vertex vertex : vertices) {
+            glVertex3f(vertex.position.x, vertex.position.y, startDepth);
+        }
     }
 
     @Override

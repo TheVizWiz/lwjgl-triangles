@@ -1,6 +1,5 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.interfaces.Shape;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
 

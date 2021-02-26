@@ -1,7 +1,7 @@
 package main;
 
-import lib.tvwzEngine.graphics.Renderable;
-import lib.tvwzEngine.graphics.interfaces.Updateable;
+import lib.tvwzEngine.graphics.interfaces.RenderableBase;
+import lib.tvwzEngine.graphics.interfaces.Updatable;
 import lib.tvwzEngine.graphics.simple.*;
 import lib.tvwzEngine.math.Time;
 import lib.tvwzEngine.math.Vector2;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.lwjgl.opengl.GL11.*;
 
 
-public class TestClass2 extends Renderable implements Updateable {
+public class TestClass2 extends RenderableBase implements Updatable {
 
     private ArrayList<Vertex> vertices;
     private ArrayList<Vector2> directions;

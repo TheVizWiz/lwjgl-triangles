@@ -1,19 +1,24 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.interfaces.Shape;
 import lib.tvwzEngine.math.Vector2;
 import lib.tvwzEngine.math.Vector3;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class Polygon extends Shape {
 
     public ArrayList<Vertex> vertices;
 
+    private Vertex[] pointsBuffer;
+
     public Polygon (Vertex[] vertices) {
         this.vertices = new ArrayList<>();
         this.vertices.addAll(Arrays.asList(vertices));
+        pointsBuffer = new Vertex[10];
     }
 
     public Polygon () {
@@ -23,7 +28,20 @@ public class Polygon extends Shape {
 
     @Override
     public void render (float startDepth) {
-        Vertex.renderVertexList(vertices.toArray(new Vertex[0]), depth + startDepth);
+        if (renderFill) {
+            glBegin(GL_POLYGON);
+            for (Vertex vertex : vertices) {
+                vertex.render(startDepth + depth);
+            }
+            glEnd();
+        }
+
+        if (renderOutline) {
+            glLineWidth(outlineWidth);
+            glBegin(GL_LINE_LOOP);
+            Vertex.renderVertexOutlineList(vertices.toArray(pointsBuffer), outlineColor, startDepth + depth);
+            glEnd();
+        }
     }
 
     @Override
@@ -52,5 +70,6 @@ public class Polygon extends Shape {
             v.position = v.position.scale(pivot, scaleAmount);
         }
     }
+
     
 }

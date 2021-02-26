@@ -23,12 +23,11 @@ public class Main {
             window.setBackgroundColor(Vector3.rgb256(0, 255, 168));
             window.show();
         }
-        new GOLInputManager(window);
         TestClass2 class2 = new TestClass2(window.width, window.height, 10);
         class2.lowSpeed = 50;
         class2.highSpeed = 100;
         window.renderableList.add(class2);
-        window.updateableList.add(class2);
+        window.updatableList.add(class2);
         while (true) {
             window.update();
             window.render();

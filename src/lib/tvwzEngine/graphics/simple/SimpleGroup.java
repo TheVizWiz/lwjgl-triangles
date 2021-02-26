@@ -1,15 +1,17 @@
 package lib.tvwzEngine.graphics.simple;
 
-import lib.tvwzEngine.graphics.Renderable;
+import lib.tvwzEngine.graphics.interfaces.Renderable;
+import lib.tvwzEngine.graphics.interfaces.RenderableBase;
 
 import java.util.ArrayList;
 
-public class SimpleGroup extends Renderable {
+public class SimpleGroup extends RenderableBase {
 
     public ArrayList<Renderable> renderables;
 
     public SimpleGroup (float startDepth) {
         this.depth = startDepth;
+        renderables = new ArrayList<>();
     }
 
 
